@@ -2,7 +2,7 @@ import led
 
 print("Booted up")
 
-led.blink(3, 0.1)
+led.blink(1, 1)
 
 import ap
 ap.start_ap()

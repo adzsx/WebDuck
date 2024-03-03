@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Rubby</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1 class="title">WebDuck</h1>
+    <textarea id="inputField" rows="4" cols="50" placeholder="Enter Payload"></textarea>
+    <button onclick="sendData()" class="button" id="send">Send</button>
+    <div class="keys">
+        <button onclick="addKey('CTRL')" class="button key" id="ctrl">CTRL</button>
+        <button onclick="addKey('WINDOWS')" class="button key" id="win">WINDOWS</button>
+        <button onclick="addKey('ALT')" class="button key" id="alt">ALT</button>
+        <button onclick="addKey('SPACE')" class="button key" id="space">SPCAE</button>
+    </div>
+
+    
+    <div class="file">
+        <input type="file" id="fileInput" class="filein">
+        <button onclick="uploadFile()" class="button fileac" id="upbtn">Upload</button>
+        <button onclick="downloadFile()" class="button fileac" id="dwnbtn">Download</button>
+    </div>
+
+    <h id="spacer">&nbsp;</h>
+</body>
+</html>
