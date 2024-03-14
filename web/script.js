@@ -4,10 +4,12 @@ function sendData() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/submit?data=" + encodeURIComponent(inputValue), true);
     xhr.send();
+    console.log("Data sent");
 }
 function addKey(key){
     var inputField = document.getElementById("inputField")
     inputField.value += key
+    console.log("Added key: " + key);
 }
 function uploadFile() {
     var fileInput = document.getElementById('fileInput');

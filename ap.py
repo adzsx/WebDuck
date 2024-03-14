@@ -90,18 +90,23 @@ def http_server():
         #print("Waiting for a connection...")
         client_socket, client_address = server_socket.accept()
         #print("Accepted connection from:", client_address)
-        led.blink(1, 0.2)
         
         size = client_socket.recv_into(buf, MAXBUF)
         
         if b"GET /submit?data=" in buf:
+            
+            led.blink(1, 0.5)
             resp = buf.decode().replace("GET /submit?data=", "")
+            
+            buf = bytearray(MAXBUF)
 
             payload = parse(resp[:resp.find("HTTP/1")]).split("%0A")
 
             print(payload)
             for line in payload:
+                led.blink(2, 0.2)
                 hid.parseLine(line)
+                
         elif b"GET /script.js" in buf:
             with open("./web/script.js", "r") as js:
                 response = js.read()
@@ -114,10 +119,10 @@ def http_server():
                 client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/css\r\n\r\n")
                 client_socket.send(response.encode())
         
-        with open("./web/index.html", "r") as html:
-            response = html.read()
+        else:
+            with open("./web/index.html", "r") as html:
+                response = html.read()
                 
-        client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n")
-        client_socket.send(response.encode())
-        led.blink(1, 0.2)
+            client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n")
+            client_socket.send(response.encode())
         client_socket.close()
