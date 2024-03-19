@@ -4,7 +4,7 @@ import led
 import secrets
 import hid
 
-MAXBUF = 2048
+MAXBUF = 8192
 
 
 def parse(url):
@@ -95,34 +95,21 @@ def http_server():
         
         if b"GET /submit?data=" in buf:
             
-            led.blink(1, 0.5)
+
             resp = buf.decode().replace("GET /submit?data=", "")
             
             buf = bytearray(MAXBUF)
 
             payload = parse(resp[:resp.find("HTTP/1")]).split("%0A")
 
-            print(payload)
             for line in payload:
-                led.blink(2, 0.2)
                 hid.parseLine(line)
+
+        with open("index.html", "r") as html:
+            response = html.read()
+        content_length = len(response)
                 
-        elif b"GET /script.js" in buf:
-            with open("./web/script.js", "r") as js:
-                response = js.read()
-                client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/javascript\r\n\r\n")
-                client_socket.send(response.encode())
-                
-        elif b"GET /style.css" in buf:
-            with open("./web/style.css", "r") as css:
-                response = css.read()
-                client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/css\r\n\r\n")
-                client_socket.send(response.encode())
+        client_socket.sendall(f"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: {content_length}\r\n\r\n")
+        client_socket.sendall(response.encode())
         
-        else:
-            with open("./web/index.html", "r") as html:
-                response = html.read()
-                
-            client_socket.send("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n")
-            client_socket.send(response.encode())
         client_socket.close()
