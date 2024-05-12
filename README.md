@@ -7,4 +7,3 @@ For this setup, Adafruits Circuitpython on a Raspberry Pi Pico W is needed.
 
 # Setup
 After installing the files on the Pico, plug it in and connect to the access point specified in the secrets.py file, modify the data for your needs.
-Grab a payload from my [Payload collection]("https://adzsx.github.io/WebDuck#payloads)
