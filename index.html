@@ -16,7 +16,6 @@
         --hover: #18191d;
         --link: #8c00ff;
         --link-hover: #ff0000;
-    
     }
     
     
@@ -109,14 +108,14 @@
         #send{
             position: absolute;
             left: 50%;
-            top: 100%;
+            top: 120%;
             transform: translate(-50%, -50%);
             margin-bottom: 50px;
         }
     
         .keys{
             position: absolute;
-            top: 70%;
+            top: 90%;
             left: 50%;
             transform: translate(-50%, -50%);
             height: 50px;
@@ -140,7 +139,7 @@
         .file{
             width: 300px;
             position: absolute;
-            top: 55%;
+            top: 70%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -169,7 +168,15 @@
     </style>
 
 
-    <script>function sendData() {
+    <script>
+    $(function() {
+        var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        $("html, body").css({"width":w,"height":h});
+    });
+    
+    
+    function sendData() {
         var inputField = document.getElementById('inputField');
         var inputValue = inputField.value;
         var xhr = new XMLHttpRequest();
@@ -177,11 +184,65 @@
         xhr.send();
         console.log("Data sent");
     }
+
+    function addString(){
+        var inputField = document.getElementById("inputField")
+        let str = prompt("String input:")
+        if (str == "" || str == null){
+            return
+        }
+            inputField.value += "\nSTRING " + str
+            console.log("Added key: " + str);
+    }
+
     function addKey(key){
         var inputField = document.getElementById("inputField")
-        inputField.value += key
+
+        inputField.value += "\n" + key
         console.log("Added key: " + key);
     }
+
+    function addKeyBind(key){
+        var inputField = document.getElementById("inputField")
+        let bind = prompt("Add keyboard shortcut (" + key + " + ...)")
+
+        if (bind == "" || bind == null){
+            return
+        }
+
+
+        inputField.value += "\n" + key + " " + bind
+        console.log("Added key: " + bind);
+    
+    }
+
+    function addDelay(){
+        var inputField = document.getElementById("inputField")
+        let delay = prompt("Input delay in ms")
+        console.log(delay);
+
+
+        if (delay == "" || delay == null){
+            return
+        }
+
+        while (delay !== parseInt(delay, 10).toString()) {
+            
+            alert("Please enter only numbers!");
+            delay = prompt("Input delay in ms");
+        }
+
+
+        delay = parseInt(delay, 10)
+        console.log(delay, typeof(delay), isNaN(delay))
+        if (isNaN(delay)){
+            addDelay()
+        }else{
+            inputField.value += "\nDELAY " + delay
+            console.log("Added key: " + delay);
+        }
+    }
+
     function uploadFile() {
         var fileInput = document.getElementById('fileInput');
         var inputField = document.getElementById('inputField');
@@ -222,17 +283,19 @@
     function downloadFile(){
         var inputField = document.getElementById("inputField")
         download(inputField.value, "payload.dd", "text/plain")
-    }</script>
+    }
+    
+    </script>
 </head>
 <body>
     <h1 class="title">WebDuck</h1>
     <textarea id="inputField" rows="4" cols="50" placeholder="Enter Payload"></textarea>
     <button onclick="sendData()" class="button" id="send">Send</button>
     <div class="keys">
-        <button onclick="addKey('CTRL')" class="button key" id="ctrl">CTRL</button>
-        <button onclick="addKey('WINDOWS')" class="button key" id="win">WINDOWS</button>
-        <button onclick="addKey('ALT')" class="button key" id="alt">ALT</button>
-        <button onclick="addKey('SPACE')" class="button key" id="space">SPCAE</button>
+        <button onclick="addString()" class="button key" id="ctrl">STRING</button>
+        <button onclick="addDelay()" class="button key" id="ctrl">DELAY</button>
+        <button onclick="addKey('ENTER')" class="button key" id="ctrl">ENTER</button>
+        <button onclick="addKeyBind('WINDOWS')" class="button key" id="alt">WINDOWS</button>
     </div>
 
 

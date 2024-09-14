@@ -50,7 +50,7 @@ def parse(url):
         '%C3%9C': 'Ü'
     }
 
-    # Replace percent-encoded characters with their decoded equivalents
+    
     for encoded_char, decoded_char in encoding_map.items():
         url = url.replace(encoded_char, decoded_char)
 
@@ -60,15 +60,13 @@ def parse(url):
 def start_ap():
     global pool
 
-    # You may also need to enable the wifi radio with wifi.radio.enabled(true)
 
-    # configure access point
     wifi.radio.start_ap(ssid=secrets.ap_ssid, password=secrets.ap_password)
 
     # print access point settings
     print("SSID: {}, password: {}".format(secrets.ap_ssid, secrets.ap_password))
 
-    # print IP address
+
     print("IP: ", wifi.radio.ipv4_address_ap)
             
 
@@ -76,7 +74,7 @@ def start_ap():
     
     led.blink(2, 0.1)
 
-# Create a simple HTTP server function
+
 def http_server():
     server_socket = pool.socket()
     server_socket.bind((str(wifi.radio.ipv4_address_ap), 80))

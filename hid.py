@@ -10,6 +10,12 @@ from board import *
 import usb_hid
 from adafruit_hid.keyboard import Keyboard
 
+# comment out these lines for non_US keyboards
+# from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS as KeyboardLayout
+# from adafruit_hid.keycode import Keycode
+
+
+# german keyboard layout
 from keyboard_layout_win_de import KeyboardLayout
 from keycode_win_de import Keycode
 
@@ -88,18 +94,6 @@ def parseLine(line):
             led.value = False
         else:
             led.value = True
-    elif(line[0:21] == "WAIT_FOR_BUTTON_PRESS"):
-        button_pressed = False
-        while not button_pressed:
-            button1.update()
-
-            button1Pushed = button1.fell
-            button1Released = button1.rose
-            button1Held = not button1.value
-
-            if(button1Pushed):
-                print("Button 1 pushed")
-                button_pressed = True
     else:
         newScriptLine = convertLine(line)
         runScriptLine(newScriptLine)
